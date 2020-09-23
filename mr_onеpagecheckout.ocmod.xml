@@ -10,22 +10,28 @@
         <operation>
             <search><![CDATA[public function index() {]]></search>
             <add position="after"><![CDATA[ 
-                $this->load->model('setting/setting');
-                $result = $this->model_setting_setting->getSetting('supercheckout', $this->config->get('config_store_id'));
-                if(!empty($result)){
-                    $this->settings = $result['supercheckout'];
-                    $data['settings']=$result['supercheckout'];                            
-                }
-                if(empty($data['settings'])){
-                    $settings = $this->model_setting_setting->getSetting('default_supercheckout', 0);
-                    if(!empty($settings)){
-                        $data['settings'] = $settings['default_supercheckout'];
-                        $data['supercheckout']=$settings['default_supercheckout'];
-                    }
-                }
-                if(!empty($data['settings']) && $data['settings']['general']['enable'] && !$data['settings']['testing_mode']['enable']){
-                    $this->response->redirect($this->url->link('supercheckout/supercheckout','','SSL'));
-                }
+			
+				/* Maxtrade Onepage - wiley68 */
+                //$this->load->model('setting/setting');
+                //$result = $this->model_setting_setting->getSetting('supercheckout', $this->config->get('config_store_id'));
+                //if(!empty($result)){
+                //    $this->settings = $result['supercheckout'];
+                //    $data['settings']=$result['supercheckout'];                            
+                //}
+                //if(empty($data['settings'])){
+                //    $settings = $this->model_setting_setting->getSetting('default_supercheckout', 0);
+                //    if(!empty($settings)){
+                //        $data['settings'] = $settings['default_supercheckout'];
+                //        $data['supercheckout']=$settings['default_supercheckout'];
+                //    }
+                //}
+                //if(!empty($data['settings']) && $data['settings']['general']['enable'] && !$data['settings']['testing_mode']['enable']){
+                //    $this->response->redirect($this->url->link('mt_onepage_checkout/onepage_checkout','','SSL'));
+                //}
+
+				$this->response->redirect($this->url->link('mt_onepage_checkout/onepage_checkout','','SSL'));
+				
+				/* Maxtrade Onepage - wiley68 */
                 ]]></add>
         </operation>		
     </file>
