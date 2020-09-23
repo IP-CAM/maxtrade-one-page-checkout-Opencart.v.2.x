@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name><![CDATA[<b>Maxtrade Onepage Checkout</b>]]></name>
+	<code>mt_op_checkout</code>
+	<version>1.0.1 for OpenCart 2.x</version>
+	<author><![CDATA[<b>Avalon Ltd.</b>]]></author>
+	<link>https://avalonbg.com</link>
+	
+	<file path="catalog/controller/checkout/checkout.php" error="abort">
+        <operation>
+            <search><![CDATA[public function index() {]]></search>
+            <add position="after"><![CDATA[ 
+                $this->load->model('setting/setting');
+                $result = $this->model_setting_setting->getSetting('supercheckout', $this->config->get('config_store_id'));
+                if(!empty($result)){
+                    $this->settings = $result['supercheckout'];
+                    $data['settings']=$result['supercheckout'];                            
+                }
+                if(empty($data['settings'])){
+                    $settings = $this->model_setting_setting->getSetting('default_supercheckout', 0);
+                    if(!empty($settings)){
+                        $data['settings'] = $settings['default_supercheckout'];
+                        $data['supercheckout']=$settings['default_supercheckout'];
+                    }
+                }
+                if(!empty($data['settings']) && $data['settings']['general']['enable'] && !$data['settings']['testing_mode']['enable']){
+                    $this->response->redirect($this->url->link('supercheckout/supercheckout','','SSL'));
+                }
+                ]]></add>
+        </operation>		
+    </file>
+</modification>
