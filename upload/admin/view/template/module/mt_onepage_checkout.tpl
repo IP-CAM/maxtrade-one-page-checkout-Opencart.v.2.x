@@ -38,13 +38,8 @@
 				<label class="col-sm-4 control-label" for="input-status"><?php echo $entry_status; ?></label>
 				<div class="col-sm-8">
 					<select name="mt_onepage_checkout_status" id="input-status" class="form-control">
-					<?php if ($mt_onepage_checkout_status) { ?>
-						<option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-						<option value="0"><?php echo $text_disabled; ?></option>
-					<?php } else { ?>
-						<option value="1"><?php echo $text_enabled; ?></option>
-						<option value="0" selected="selected"><?php echo $text_disabled; ?></option>
-					<?php } ?>
+						<option value="1" <?php if ($mt_onepage_checkout_status) { ?> selected="selected" <?php } ?>><?php echo $text_enabled; ?></option>
+						<option value="0" <?php if (!$mt_onepage_checkout_status) { ?> selected="selected" <?php } ?>><?php echo $text_disabled; ?></option>
 					</select>
 					<div class="text-small"><?php echo $entry_status_small; ?></div>
 				</div>
