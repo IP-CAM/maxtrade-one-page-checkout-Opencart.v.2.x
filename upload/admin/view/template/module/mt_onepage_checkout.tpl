@@ -33,7 +33,7 @@
 		
 		
 <!--  standard form opencart -->
-		<form action="<?php echo $form_action; ?>" method="post" enctype="multipart/form-data" id="form-html" class="form-horizontal">
+		<form action="<?php echo $form_action; ?>" method="post" id="form-html" class="form-horizontal">
 			<div class="form-group">
 				<label class="col-sm-4 control-label" for="input-status"><?php echo $entry_status; ?></label>
 				<div class="col-sm-8">
