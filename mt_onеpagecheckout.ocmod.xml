@@ -13,7 +13,7 @@
 			
 				/* Maxtrade Onepage - wiley68 */
 				$mt_onepage_checkout_status = $this->config->get('mt_onepage_checkout_status');
-				if($mt_onepage_checkout_status == true){
+				if(!empty($mt_onepage_checkout_status) && $mt_onepage_checkout_status == true){
 					$this->response->redirect($this->url->link('mt_onepage_checkout/onepage_checkout','','SSL'));
 				}
 				/* Maxtrade Onepage - wiley68 */
