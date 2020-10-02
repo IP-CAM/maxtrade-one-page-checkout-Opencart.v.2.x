@@ -26,10 +26,8 @@ class ControllerMtOnepageCheckoutOnepageCheckout extends Controller {
 		$this->load->language('mt_onepage_checkout/onepage_checkout');
 
 		$this->document->setTitle($this->language->get('heading_title'));
-
-		$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
-		$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
-		$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
+		
+		$this->document->addStyle('catalog/view/theme/default/stylesheet/mt_onepage_checkout.css');
 
 		// Required by klarna
 		if ($this->config->get('klarna_account') || $this->config->get('klarna_invoice')) {
@@ -54,14 +52,30 @@ class ControllerMtOnepageCheckoutOnepageCheckout extends Controller {
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
+		
+		$data['text_user'] = $this->language->get('text_user');
+		$data['text_guest'] = $this->language->get('text_guest');
+		$data['text_registered_user'] = $this->language->get('text_registered_user');
+		$data['text_register'] = $this->language->get('text_register');
+		$data['text_select'] = $this->language->get('text_select');
 
-		$data['text_checkout_option'] = $this->language->get('text_checkout_option');
-		$data['text_checkout_account'] = $this->language->get('text_checkout_account');
-		$data['text_checkout_payment_address'] = $this->language->get('text_checkout_payment_address');
-		$data['text_checkout_shipping_address'] = $this->language->get('text_checkout_shipping_address');
-		$data['text_checkout_shipping_method'] = $this->language->get('text_checkout_shipping_method');
-		$data['text_checkout_payment_method'] = $this->language->get('text_checkout_payment_method');
-		$data['text_checkout_confirm'] = $this->language->get('text_checkout_confirm');
+		$data['entry_email'] = $this->language->get('entry_email');
+		$data['entry_password'] = $this->language->get('entry_password');
+		$data['text_forgotten'] = $this->language->get('text_forgotten');
+		$data['button_login'] = $this->language->get('button_login');
+		
+		$data['entry_firstname'] = $this->language->get('entry_firstname');
+		$data['entry_lastname'] = $this->language->get('entry_lastname');
+		$data['entry_telephone'] = $this->language->get('entry_telephone');
+		$data['entry_company'] = $this->language->get('entry_company');
+		$data['entry_address_1'] = $this->language->get('entry_address_1');
+		$data['entry_postcode'] = $this->language->get('entry_postcode');
+		$data['entry_city'] = $this->language->get('entry_city');
+		$data['entry_country'] = $this->language->get('entry_country');
+		$data['entry_zone'] = $this->language->get('entry_zone');
+		$data['entry_password'] = $this->language->get('entry_password');
+		$data['entry_confirm'] = $this->language->get('entry_confirm');
+
 
 		if (isset($this->session->data['error'])) {
 			$data['error_warning'] = $this->session->data['error'];
@@ -71,14 +85,37 @@ class ControllerMtOnepageCheckoutOnepageCheckout extends Controller {
 		}
 
 		$data['logged'] = $this->customer->isLogged();
-
-		if (isset($this->session->data['account'])) {
-			$data['account'] = $this->session->data['account'];
+	
+		if (isset($this->session->data['guest']['firstname'])) {
+			$data['firstname'] = $this->session->data['guest']['firstname'];
 		} else {
-			$data['account'] = '';
+			$data['firstname'] = '';
+		}
+		
+		if (isset($this->session->data['guest']['lastname'])) {
+			$data['lastname'] = $this->session->data['guest']['lastname'];
+		} else {
+			$data['lastname'] = '';
+		}
+
+		if (isset($this->session->data['guest']['email'])) {
+			$data['email'] = $this->session->data['guest']['email'];
+		} else {
+			$data['email'] = '';
+		}
+
+		if (isset($this->session->data['guest']['telephone'])) {
+			$data['telephone'] = $this->session->data['guest']['telephone'];
+		} else {
+			$data['telephone'] = '';
 		}
 
 		$data['shipping_required'] = $this->cart->hasShipping();
+		$data['mt_onepage_checkout_small_width'] = $this->config->get('mt_onepage_checkout_small_width');
+		
+		//$data['countries'] = $this->model_localisation_country->getCountries();
+		
+		$data['forgotten'] = $this->url->link('account/forgotten', '', 'SSL');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -93,7 +130,7 @@ class ControllerMtOnepageCheckoutOnepageCheckout extends Controller {
 			$this->response->setOutput($this->load->view('default/template/mt_onepage_checkout/onepage_checkout.tpl', $data));
 		}
 	}
-
+	
 	public function country() {
 		$json = array();
 
@@ -120,28 +157,4 @@ class ControllerMtOnepageCheckoutOnepageCheckout extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function customfield() {
-		$json = array();
-
-		$this->load->model('account/custom_field');
-
-		// Customer Group
-		if (isset($this->request->get['customer_group_id']) && is_array($this->config->get('config_customer_group_display')) && in_array($this->request->get['customer_group_id'], $this->config->get('config_customer_group_display'))) {
-			$customer_group_id = $this->request->get['customer_group_id'];
-		} else {
-			$customer_group_id = $this->config->get('config_customer_group_id');
-		}
-
-		$custom_fields = $this->model_account_custom_field->getCustomFields($customer_group_id);
-
-		foreach ($custom_fields as $custom_field) {
-			$json[] = array(
-				'custom_field_id' => $custom_field['custom_field_id'],
-				'required'        => $custom_field['required']
-			);
-		}
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
 }

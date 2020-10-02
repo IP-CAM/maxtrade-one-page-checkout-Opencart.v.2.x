@@ -30,10 +30,14 @@ class ControllerModuleMtOnepageCheckout extends Controller {
 		$data['text_module'] = $this->language->get('text_module');
 		$data['text_enabled'] = $this->language->get('text_enabled');
 		$data['text_disabled'] = $this->language->get('text_disabled');
+		$data['text_small_width'] = $this->language->get('text_small_width');
+		$data['text_full_width'] = $this->language->get('text_full_width');
 
 
 		$data['entry_status'] = $this->language->get('entry_status');
 		$data['entry_status_small'] = $this->language->get('entry_status_small');
+		$data['width_status'] = $this->language->get('width_status');
+		$data['width_status_small'] = $this->language->get('width_status_small');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -47,6 +51,12 @@ class ControllerModuleMtOnepageCheckout extends Controller {
 			$data['mt_onepage_checkout_status'] = $this->request->post['mt_onepage_checkout_status'];
 		} else {
 			$data['mt_onepage_checkout_status'] = $this->config->get('mt_onepage_checkout_status');
+		}
+		
+		if (isset($this->request->post['mt_onepage_checkout_small_width'])) {
+			$data['mt_onepage_checkout_small_width'] = $this->request->post['mt_onepage_checkout_small_width'];
+		} else {
+			$data['mt_onepage_checkout_small_width'] = $this->config->get('mt_onepage_checkout_small_width');
 		}
 
 		/* Breadcrumb. */
@@ -72,8 +82,7 @@ class ControllerModuleMtOnepageCheckout extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		/* Error warning */
-		
+		/* Error warning */	
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -81,8 +90,6 @@ class ControllerModuleMtOnepageCheckout extends Controller {
 		}
 
 		$this->response->setOutput($this->load->view('module/mt_onepage_checkout.tpl', $data));
-		
-
 	}
 	
 	public function getMtVersion(){

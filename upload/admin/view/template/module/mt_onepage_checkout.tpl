@@ -44,6 +44,16 @@
 					<div class="text-small"><?php echo $entry_status_small; ?></div>
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" for="input-width"><?php echo $width_status; ?></label>
+				<div class="col-sm-8">
+					<select name="mt_onepage_checkout_small_width" id="input-width" class="form-control">
+						<option value="1" <?php if ($mt_onepage_checkout_small_width) { ?> selected="selected" <?php } ?>><?php echo $text_small_width; ?></option>
+						<option value="0" <?php if (!$mt_onepage_checkout_small_width) { ?> selected="selected" <?php } ?>><?php echo $text_full_width; ?></option>
+					</select>
+					<div class="text-small"><?php echo $width_status_small; ?></div>
+				</div>
+			</div>
 		</form>
 <!--  standard form opencart -->
 
